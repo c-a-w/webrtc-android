@@ -12,6 +12,7 @@ import android.webkit.PermissionRequest
 import android.webkit.WebChromeClient
 
 class MainActivity : AppCompatActivity() {
+    private val TAG = "MainActivity"
     private lateinit var webView: WebView
     private val url = "https://c-a-w-webrtc.herokuapp.com"
 
@@ -26,14 +27,13 @@ class MainActivity : AppCompatActivity() {
         webView.webChromeClient = object : WebChromeClient() {
             override fun onPermissionRequest(request: PermissionRequest?) {
                 if (request == null) {
-                    Log.i("WEB_CHROME_CLIENT", "no request returned")
+                    Log.i(TAG, "no request returned")
                 } else {
-                    Log.i("WEB_CHROME_CLIENT", request.toString())
+                    Log.i(TAG, request.toString())
                     request.grant(request.resources)
                 }
             }
         }
-
 
 
         if (ActivityCompat.shouldShowRequestPermissionRationale(this,
@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
 
                     webView.loadUrl(url)
                 } else {
-                    Log.d("PERMISSION", "permission denied")
+                    Log.d(TAG, "permission denied")
                 }
                 return
             }
