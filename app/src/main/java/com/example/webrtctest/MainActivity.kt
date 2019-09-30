@@ -7,6 +7,7 @@ import android.webkit.WebViewClient
 import androidx.core.app.ActivityCompat
 import android.Manifest
 import android.content.pm.PackageManager
+import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.util.Log
 import android.webkit.PermissionRequest
 import android.webkit.WebChromeClient
@@ -36,11 +37,12 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.CAMERA)) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
             // Show an explanation to the user *asynchronously* -- don't block
             // this thread waiting for the user's response! After the user
             // sees the explanation, try again to request the permission.
+        } else if(arePermissionsGranted()) {
+            webView.loadUrl(url)
         } else {
             ActivityCompat.requestPermissions(this,
                 arrayOf(
@@ -69,5 +71,12 @@ class MainActivity : AppCompatActivity() {
                 return
             }
         }
+    }
+
+    private fun arePermissionsGranted(): Boolean {
+        return (
+                ActivityCompat.checkSelfPermission( this, "android.permission.CAMERA" ) == PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission( this, "android.permission.CAMERA" ) == PERMISSION_GRANTED
+                )
     }
 }
